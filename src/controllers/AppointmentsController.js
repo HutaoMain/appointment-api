@@ -51,10 +51,22 @@ const updateAppointmentById = async (req, res) => {
   }
 };
 
+const getAppointmentByEmail = async (req, res) => {
+  try {
+    const appointment = await AppointmentsModel.find({
+      email: req.params.email,
+    });
+    res.status(200).json(appointment);
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 module.exports = {
   createAppointment,
   getAppointmentList,
   getAppointmentById,
   deleteAppointmentById,
   updateAppointmentById,
+  getAppointmentByEmail,
 };

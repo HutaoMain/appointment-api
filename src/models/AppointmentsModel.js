@@ -18,6 +18,10 @@ const AppointmentSchema = new mongoose.Schema(
       type: String,
       default: "Pending",
     },
+    email: {
+      type: String,
+      required: true,
+    },
   },
   {
     timestamps: true,
