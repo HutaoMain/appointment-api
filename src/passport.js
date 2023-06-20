@@ -1,6 +1,5 @@
 const passport = require("passport");
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
-const mongoose = require("mongoose");
 const UsersModel = require("./models/UsersModel");
 
 passport.use(
@@ -12,20 +11,21 @@ passport.use(
       profileFields: ["id", "displayName", "email"],
     },
     async function (accessToken, refreshToken, profile, done) {
-      await UsersModel.findOne({ email: profile.email }).then(
-        (existingUser) => {
-          if (existingUser) {
-            done(null, existingUser);
-          } else {
-            new UsersModel({
-              fullname: profile.displayName,
-              email: profile.emails[0].value,
-            })
-              .save()
-              .then((user) => done(null, user));
-          }
-        }
-      );
+      const existingUser = await UsersModel.findOne({
+        email: profile.emails[0].value,
+      });
+
+      if (existingUser) {
+        done(null, existingUser);
+      } else {
+        const newUser = new UsersModel({
+          fullname: profile.displayName,
+          email: profile.emails[0].value,
+        });
+        await newUser.save();
+
+        done(null, newUser);
+      }
     }
   )
 );
