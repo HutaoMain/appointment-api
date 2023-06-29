@@ -22,6 +22,23 @@ const AppointmentSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    // notifications
+    adminNotification: {
+      type: Boolean,
+      default: true,
+    },
+    adminMarkAsRead: {
+      type: Boolean,
+      default: false,
+    },
+    userNotification: {
+      type: Boolean,
+      default: false,
+    },
+    userMarkAsRead: {
+      type: Boolean,
+      default: false,
+    },
   },
   {
     timestamps: true,
